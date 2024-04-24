@@ -29,6 +29,7 @@ EOF
     git_repo             = "terragoat"
     yor_trace            = "347af3cd-4f70-4632-aca3-4d5e30ffc0b6"
   })
+  monitoring = true
 }
 
 resource "aws_ebs_volume" "web_host_storage" {
@@ -48,6 +49,7 @@ resource "aws_ebs_volume" "web_host_storage" {
     git_repo             = "terragoat"
     yor_trace            = "c5509daf-10f0-46af-9e03-41989212521d"
   })
+  encrypted = true
 }
 
 resource "aws_ebs_snapshot" "example_snapshot" {
@@ -305,4 +307,8 @@ output "public_subnet" {
 output "public_subnet2" {
   description = "The ID of the Public subnet"
   value       = aws_subnet.web_subnet2.id
+}
+resource "aws_s3_bucket_public_access_block" "my_aws_s3_bucket_public_access_block_flowbucket" {
+  bucket             = aws_s3_bucket.flowbucket.id
+  ignore_public_acls = true
 }
