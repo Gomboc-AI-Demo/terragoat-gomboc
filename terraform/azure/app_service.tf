@@ -24,7 +24,7 @@ resource azurerm_app_service "app-service1" {
   location            = var.location
   name                = "terragoat-app-service-${var.environment}${random_integer.rnd_int.result}"
   resource_group_name = azurerm_resource_group.example.name
-  https_only          = false
+  https_only          = true
   site_config {
     min_tls_version = "1.1"
   }
@@ -61,4 +61,3 @@ resource azurerm_app_service "app-service2" {
     yor_trace            = "ec8295ab-af68-4cff-b0f1-b0cf5eaf1b75"
   }
 }
-
