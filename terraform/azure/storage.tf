@@ -57,6 +57,14 @@ resource "azurerm_storage_account" "example" {
     git_repo             = "terragoat"
     yor_trace            = "23861ff4-c42d-495e-80ac-776c74035f43"
   }
+  public_network_access_enabled   = false
+  allow_nested_items_to_be_public = false
+  enable_https_traffic_only       = true
+  blob_properties {
+    delete_retention_policy {
+      permanent_delete_enabled = false
+    }
+  }
 }
 
 resource "azurerm_storage_account_network_rules" "test" {
@@ -66,4 +74,8 @@ resource "azurerm_storage_account_network_rules" "test" {
   default_action = "Deny"
   ip_rules       = ["127.0.0.1"]
   bypass         = ["Metrics"]
+}
+resource "azurerm_storage_encryption_scope" "my_azurerm_storage_encryption_scope_azurerm_storage_account_example" {
+  storage_account_id = azurerm_storage_account.example.id
+  source             = "Microsoft.Storage"
 }
