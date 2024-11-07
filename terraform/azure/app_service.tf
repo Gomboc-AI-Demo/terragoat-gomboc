@@ -24,7 +24,7 @@ resource azurerm_app_service "app-service1" {
   location            = var.location
   name                = "terragoat-app-service-${var.environment}${random_integer.rnd_int.result}"
   resource_group_name = azurerm_resource_group.example.name
-  https_only          = false
+  https_only          = true
   site_config {
     min_tls_version = "1.1"
   }
@@ -38,6 +38,9 @@ resource azurerm_app_service "app-service1" {
     git_repo             = "terragoat"
     yor_trace            = "13be096d-c599-46e5-bf54-51c6e9732858"
   }
+  auth_settings {
+    enabled = true
+  }
 }
 
 resource azurerm_app_service "app-service2" {
@@ -48,7 +51,7 @@ resource azurerm_app_service "app-service2" {
   https_only          = true
 
   auth_settings {
-    enabled = false
+    enabled = true
   }
   tags = {
     git_commit           = "5c6b5d60a8aa63a5d37e60f15185d13a967f0542"
@@ -61,4 +64,3 @@ resource azurerm_app_service "app-service2" {
     yor_trace            = "ec8295ab-af68-4cff-b0f1-b0cf5eaf1b75"
   }
 }
-

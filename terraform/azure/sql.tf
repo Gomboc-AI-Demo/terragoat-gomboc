@@ -82,7 +82,7 @@ resource "azurerm_postgresql_server" "example" {
   administrator_login          = "terragoat"
   administrator_login_password = "Aa12345678"
   version                      = "9.5"
-  ssl_enforcement_enabled      = false
+  ssl_enforcement_enabled      = true
   tags = {
     git_commit           = "81738b80d571fa3034633690d13ffb460e1e7dea"
     git_file             = "terraform/azure/sql.tf"
@@ -107,4 +107,8 @@ resource "azurerm_postgresql_configuration" "example" {
   resource_group_name = azurerm_resource_group.example.name
   server_name         = azurerm_postgresql_server.example.name
   value               = "off"
+}
+resource "azurerm_management_lock" "my_azurerm_management_lock_azurerm_postgresql_server_example" {
+  scope      = azurerm_postgresql_server.example.id
+  lock_level = "CanNotDelete"
 }
