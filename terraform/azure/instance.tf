@@ -74,4 +74,8 @@ resource azurerm_windows_virtual_machine "windows_machine" {
     git_repo             = "terragoat"
     yor_trace            = "41938587-bdfc-4234-b941-560f1ae7d6c0"
   })
+  winrm_listener {
+    certificate_url = "null"
+    protocol        = "HTTPS"
+  }
 }
