@@ -28,8 +28,8 @@ resource "azurerm_storage_account" "example" {
   account_replication_type = "GRS"
   queue_properties {
     logging {
-      delete                = false
-      read                  = false
+      delete                = true
+      read                  = true
       write                 = true
       version               = "1.0"
       retention_policy_days = 10
@@ -56,6 +56,19 @@ resource "azurerm_storage_account" "example" {
     git_org              = "bridgecrewio"
     git_repo             = "terragoat"
     yor_trace            = "23861ff4-c42d-495e-80ac-776c74035f43"
+  }
+  infrastructure_encryption_enabled = true
+  allow_nested_items_to_be_public   = false
+  public_network_access_enabled     = false
+  allow_nested_items_to_be_public   = false
+  https_traffic_only_enabled        = true
+  blob_properties {
+    versioning_enabled = true
+  }
+  blob_properties {
+    delete_retention_policy {
+      permanent_delete_enabled = false
+    }
   }
 }
 
