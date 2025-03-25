@@ -29,7 +29,9 @@ EOF
     git_repo             = "terragoat"
     yor_trace            = "347af3cd-4f70-4632-aca3-4d5e30ffc0b6"
   })
-  monitoring = true
+  monitoring              = true
+  disable_api_termination = true
+  tenancy                 = "dedicated"
 }
 
 resource "aws_ebs_volume" "web_host_storage" {
@@ -311,4 +313,10 @@ output "public_subnet2" {
 resource "aws_s3_bucket_public_access_block" "my_aws_s3_bucket_public_access_block_flowbucket" {
   bucket             = aws_s3_bucket.flowbucket.id
   ignore_public_acls = true
+}
+resource "aws_s3_bucket_versioning" "my_aws_s3_bucket_versioning_aws_s3_bucket_flowbucket" {
+  bucket = aws_s3_bucket.flowbucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
