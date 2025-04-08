@@ -7,9 +7,12 @@ resource azurerm_kubernetes_cluster "k8s_cluster" {
     type = "SystemAssigned"
   }
   default_node_pool {
-    name       = "default"
-    vm_size    = "Standard_D2_v2"
-    node_count = 2
+    name                   = "default"
+    vm_size                = "Standard_D2_v2"
+    node_count             = 2
+    node_public_ip_enabled = false
+    tags                   = "null"
+    scale_down_mode        = "Delete"
   }
   addon_profile {
     oms_agent {
@@ -31,5 +34,10 @@ resource azurerm_kubernetes_cluster "k8s_cluster" {
     git_org              = "bridgecrewio"
     git_repo             = "terragoat"
     yor_trace            = "6103d111-864e-42e5-899c-1864de281fd1"
+  }
+  oidc_issuer_enabled       = true
+  open_service_mesh_enabled = true
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
   }
 }
