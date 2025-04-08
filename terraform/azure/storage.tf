@@ -18,6 +18,7 @@ resource "azurerm_managed_disk" "example" {
     git_repo             = "terragoat"
     yor_trace            = "d17da7b3-f1c5-4723-9f77-d1b9069459c7"
   }
+  public_network_access_enabled = false
 }
 
 resource "azurerm_storage_account" "example" {
@@ -28,8 +29,8 @@ resource "azurerm_storage_account" "example" {
   account_replication_type = "GRS"
   queue_properties {
     logging {
-      delete                = false
-      read                  = false
+      delete                = true
+      read                  = true
       write                 = true
       version               = "1.0"
       retention_policy_days = 10
@@ -44,7 +45,7 @@ resource "azurerm_storage_account" "example" {
       enabled               = true
       include_apis          = true
       version               = "1.0"
-      retention_policy_days = 10
+      retention_policy_days = "30"
     }
   }
   tags = {
@@ -57,6 +58,16 @@ resource "azurerm_storage_account" "example" {
     git_repo             = "terragoat"
     yor_trace            = "23861ff4-c42d-495e-80ac-776c74035f43"
   }
+  allow_nested_items_to_be_public   = false
+  infrastructure_encryption_enabled = true
+  public_network_access_enabled     = false
+  https_traffic_only_enabled        = true
+  blob_properties {
+    versioning_enabled = true
+    delete_retention_policy {
+      permanent_delete_enabled = false
+    }
+  }
 }
 
 resource "azurerm_storage_account_network_rules" "test" {
@@ -66,4 +77,8 @@ resource "azurerm_storage_account_network_rules" "test" {
   default_action = "Deny"
   ip_rules       = ["127.0.0.1"]
   bypass         = ["Metrics"]
+}
+resource "azurerm_storage_encryption_scope" "my_azurerm_storage_encryption_scope_azurerm_storage_account_example" {
+  storage_account_id = azurerm_storage_account.example.id
+  source             = "Microsoft.Storage"
 }
